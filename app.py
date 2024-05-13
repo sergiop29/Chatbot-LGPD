@@ -1,7 +1,7 @@
 import streamlit as st
 from utils import chatBot, text
 from streamlit_chat import message
-from streamlit_image_coordinates import streamlit_image_coordinates
+# from streamlit_image_coordinates import streamlit_image_coordinates
 
 def main():
 
@@ -79,9 +79,8 @@ Com a LGPD em vigor desde 2020, empresas e órgãos que não se adequarem à lei
         # vectorstore = chatBot.create_vectorstore(chunks)
         # print(vectorstore)
 
-        vectorstore = "vectorstore/index.faiss"
-        st.session_state.conversation = chatBot.create_conversation_chain(
-            vectorstore)
+        # vectorstore = "vectorstore/._index.faiss"
+        st.session_state.conversation = chatBot.create_conversation_chain()
         
 
 
