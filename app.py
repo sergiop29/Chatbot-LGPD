@@ -5,18 +5,21 @@ from streamlit_chat import message
 
 def main():
 
-    st.set_page_config(page_title='LGPDNOW GPT', page_icon=':books:', layout="centered")
-    col1, col2, col3, col4, col5 = st.columns(5)
+    st.set_page_config(page_title='LGPDNOW GPT', page_icon='utils/lgpd_logo_verde.png', layout="centered")
+    col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
     col1.empty()
-    col2.empty()
-    col3.image('utils/download.png', width=95)
+    col2.image('utils/Logo-lgpd-com-nome.png', width=475)
+    col3.empty()
     col4.empty()
     col5.empty()
+    col6.empty()
+    col7.empty()
 
     # value = streamlit_image_coordinates("utils/download.png/200/300")
     # st.write(value)
     
-    st.header(':violet[Converse com um especialista] 💬')
+    st.header(':green[Converse com um especialista em LGPD] 💬')
+    st.write("")
     user_question = st.text_input("Em que posso te ajudar hoje?")
 
     if ('conversation' not in st.session_state):
@@ -38,7 +41,7 @@ def main():
 
     with st.sidebar:
 
-        st.header('Seu Chatbot pessoal treinado pela Bravonix! ', divider='violet')
+        st.header('Seu Chatbot pessoal treinado pela LGPDNOW! ', divider='green')
         st.write("")
         st.caption(""" <p style='text-align:justify'>
         A Lei Geral de Proteção de Dados Pessoais (LGPD) foi promulgada em 2018 com o objetivo de garantir os direitos à liberdade, privacidade e personalidade dos indivíduos. Ela se aplica a qualquer pessoa, seja física ou jurídica, incluindo empresas e órgãos públicos.
@@ -58,11 +61,11 @@ Com a LGPD em vigor desde 2020, empresas e órgãos que não se adequarem à lei
         st.sidebar.button('Limpar Chat', on_click=clear_chat_history)
         st.divider()
 
-        st.caption("<p style='text-align:center'> Made by Bravonix </p>", unsafe_allow_html=True)
+        st.caption("<p style='text-align:center'> Made by LGPDNOW </p>", unsafe_allow_html=True)
         col1, col2, col3, col4, col5 = st.columns(5)
         col1.empty()
         col2.empty()
-        col3.image('utils/download.png', width=50)
+        col3.image('utils/lgpd_logo_verde.png', width=40)
         col4.empty()
         col5.empty()
         # for index, col in enumerate(st.columns(5)):
