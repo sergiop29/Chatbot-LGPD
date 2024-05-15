@@ -24,7 +24,7 @@ def create_conversation_chain(vectorstore=None):
     if (not vectorstore):
         embeddings = OpenAIEmbeddings()
         vectorstore = FAISS.load_local(
-            'vectorstore', embeddings, allow_dangerous_deserialization=True)
+            'vectorstore/index.faiss', embeddings, allow_dangerous_deserialization=True)
 
     llm = ChatOpenAI(model="gpt-3.5-turbo-0125", temperature=0.7)
 
