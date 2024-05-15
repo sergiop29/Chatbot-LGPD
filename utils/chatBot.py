@@ -1,6 +1,6 @@
 from langchain_openai.embeddings import OpenAIEmbeddings
 # from langchain_community.embeddings import HuggingFaceInstructEmbeddings
-from langchain_community.vectorstores.faiss import FAISS
+from langchain_community.vectorstores import FAISS
 from dotenv import load_dotenv
 from langchain_openai.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
@@ -24,7 +24,7 @@ def create_conversation_chain(vectorstore=None):
     if (not vectorstore):
         embeddings = OpenAIEmbeddings()
         vectorstore = FAISS.load_local(
-            'vectorstore/index.faiss', embeddings, allow_dangerous_deserialization=True)
+            'vectorstore', embeddings, allow_dangerous_deserialization=True)
 
     llm = ChatOpenAI(model="gpt-3.5-turbo-0125", temperature=0.7)
 
