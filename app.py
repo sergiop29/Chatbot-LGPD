@@ -1,25 +1,13 @@
 import streamlit as st
 from utils import chatBot, text
 from streamlit_chat import message
-# from streamlit_image_coordinates import streamlit_image_coordinates
+
 
 def main():
 
-    st.set_page_config(page_title='LGPDNOW GPT', page_icon='utils/lgpd_logo_verde.png', layout="centered")
-    col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
-    col1.empty()
-    col2.image('utils/Logo-lgpd-com-nome.png', width=475)
-    col3.empty()
-    col4.empty()
-    col5.empty()
-    col6.empty()
-    col7.empty()
+    st.set_page_config(page_title='LGPDNOW GPT', page_icon=':books:')
 
-    # value = streamlit_image_coordinates("utils/download.png/200/300")
-    # st.write(value)
-    
-    st.header(':green[Converse com um especialista em LGPD] 💬')
-    st.write("")
+    st.header('Converse com um especialista')
     user_question = st.text_input("Em que posso te ajudar hoje?")
 
     if ('conversation' not in st.session_state):
@@ -27,19 +15,58 @@ def main():
 
     if (user_question):
 
-        response = st.session_state.conversation(user_question)['chat_history']
+        try:
+            if st.session_state.conversation is None:
+                st.session_state.conversation = chatBot.create_conversation_chain()
 
-        for i, text_message in enumerate(response):
+            response = st.session_state.conversation(user_question)[
+                'chat_history']
 
-            if (i % 2 == 0):
-                message(text_message.content,
-                        is_user=True, key=str(i) + '_user')
+            for i, text_message in enumerate(response):
 
-            else:
-                message(text_message.content,
-                        is_user=False, key=str(i) + '_bot')
+                if (i % 2 == 0):
+                    message(text_message.content,
+                            is_user=True, key=str(i) + '_user')
+
+                else:
+                    message(text_message.content,
+                            is_user=False, key=str(i) + '_bot')
+        except:
+            st.session_state.conversation = chatBot.create_conversation_chain()
+            response = st.session_state.conversation(user_question)[
+                'chat_history']
+
+            for i, text_message in enumerate(response):
+
+                if (i % 2 == 0):
+                    message(text_message.content,
+                            is_user=True, key=str(i) + '_user')
+
+                else:
+                    message(text_message.content,
+                            is_user=False, key=str(i) + '_bot')
 
     with st.sidebar:
+
+        st.subheader('Seus arquivos')
+
+        # ------ INICIO HABILITAR O PROCESSAMENTO DE ARQUIVOS PDF ----#
+
+        # pdf_docs = st.file_uploader(
+        #     "Carregue os seus arquivos, em formato PDF, aqui", accept_multiple_files=True)
+        # print(type(pdf_docs))
+
+        # if st.button('Processar'):
+        #     all_files_text = text.process_file(pdf_docs)
+
+        #     chunks = text.create_text_chunks(all_files_text)
+
+        #     vectorstore = chatBot.create_vectorstore(chunks)
+        #     # print(vectorstore)
+        #     st.session_state.conversation = chatBot.create_conversation_chain(
+        #         vectorstore)
+
+        # _____ FIM HABILITAR O PROCESSAMENTO DE ARQUIVOS PDF ____#
 
         st.header('Seu Chatbot pessoal treinado pela LGPDNOW! ', divider='green')
         st.write("")
@@ -56,12 +83,14 @@ Com a LGPD em vigor desde 2020, empresas e órgãos que não se adequarem à lei
             st.write("LEI No 13.709, DE 14 DE AGOSTO DE 2018")
 
         def clear_chat_history():
-            st.session_state.messages = [{"role": "assistant", "content": "Como posso te ajudar?"}]
+            st.session_state.messages = [
+                {"role": "assistant", "content": "Como posso te ajudar?"}]
         st.markdown("")
         st.sidebar.button('Limpar Chat', on_click=clear_chat_history)
         st.divider()
 
-        st.caption("<p style='text-align:center'> Made by LGPDNOW </p>", unsafe_allow_html=True)
+        st.caption("<p style='text-align:center'> Made by LGPDNOW </p>",
+                   unsafe_allow_html=True)
         col1, col2, col3, col4, col5 = st.columns(5)
         col1.empty()
         col2.empty()
@@ -70,7 +99,7 @@ Com a LGPD em vigor desde 2020, empresas e órgãos que não se adequarem à lei
         col5.empty()
         # for index, col in enumerate(st.columns(5)):
         #     if index==3:
-        #         st.image('utils/download.png', width=50)    
+        #         st.image('utils/download.png', width=50)
         #     else:
         #         st.empty()
 
@@ -84,7 +113,6 @@ Com a LGPD em vigor desde 2020, empresas e órgãos que não se adequarem à lei
 
         # vectorstore = "vectorstore/._index.faiss"
         st.session_state.conversation = chatBot.create_conversation_chain()
-        
 
 
 if __name__ == '__main__':
