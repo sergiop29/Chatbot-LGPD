@@ -5,15 +5,34 @@ from streamlit_chat import message
 
 def main():
 
-    st.set_page_config(page_title='LGPDNOW GPT', page_icon=':books:')
-
-    st.header('Converse com um especialista')
+    st.set_page_config(page_title='LGPDNOW GPT', page_icon='utils/lgpd_logo_verde.png', layout="centered")
+    col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
+    col1.empty()
+    col2.image('utils/Logo-lgpd-com-nome.png', width=475)
+    col3.empty()
+    col4.empty()
+    col5.empty()
+    col6.empty()
+    col7.empty()
+    st.header(':green[Converse com um especialista em LGPD] 💬')
     user_question = st.text_input("Em que posso te ajudar hoje?")
 
     if ('conversation' not in st.session_state):
         st.session_state.conversation = None
 
     if (user_question):
+
+        # response = st.session_state.conversation(user_question)['chat_history']
+
+        # for i, text_message in enumerate(response):
+
+        #     if (i % 2 == 0):
+        #         message(text_message.content,
+        #                 is_user=True, key=str(i) + '_user')
+
+        #     else:
+        #         message(text_message.content,
+        #                 is_user=False, key=str(i) + '_bot')
 
         try:
             if st.session_state.conversation is None:
@@ -81,13 +100,16 @@ Com a LGPD em vigor desde 2020, empresas e órgãos que não se adequarem à lei
 
         with st.expander("Legislação utilizada no modelo: "):
             st.write("LEI No 13.709, DE 14 DE AGOSTO DE 2018")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
 
-        def clear_chat_history():
-            st.session_state.messages = [
-                {"role": "assistant", "content": "Como posso te ajudar?"}]
-        st.markdown("")
-        st.sidebar.button('Limpar Chat', on_click=clear_chat_history)
-        st.divider()
+        # def clear_chat_history():
+        #     st.session_state.conversation = None
+        # st.markdown("")
+        # st.sidebar.button('Limpar Chat', on_click=clear_chat_history)
+        # st.divider()
 
         st.caption("<p style='text-align:center'> Made by LGPDNOW </p>",
                    unsafe_allow_html=True)
