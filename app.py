@@ -31,6 +31,7 @@ def main():
             st.session_state.conversation_history.extend(response)
 
             for i, text_message in enumerate(response):
+                print("Print do LOOP: ", i, text_message)
                 if (i % 2 == 0):
                     message(text_message.content,
                             is_user=True, key=str(i) + '_user')
@@ -40,6 +41,10 @@ def main():
                             is_user=False, key=str(i) + '_bot')
                     print("NA REAL TÁ AQUIIIIII")
 
+            # for message in st.session_state.conversation_history:
+            #     with st.chat_message(message["role"]):
+            #         st.markdown(message["content"])
+                    
         except:
             st.session_state.conversation = chatBot.create_conversation_chain()
             response = st.session_state.conversation(user_question)['chat_history']
