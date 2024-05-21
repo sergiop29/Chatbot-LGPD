@@ -1,24 +1,11 @@
 import streamlit as st
 from utils import chatBot, text
-import streamlit_chat
 from streamlit_chat import message
 
 
 def main():
 
-    st.set_page_config(
-        page_title='LGPDNOW GPT',
-        page_icon='utils/lgpd_logo_verde.png',
-        layout="centered"
-    )
-
-    # Create session state variables for conversation history and user input
-    if 'conversation' not in st.session_state:
-        st.session_state.conversation = []
-    if 'user_input' not in st.session_state:
-        st.session_state.user_input = ""
-
-    # Logo "centralizada"
+    st.set_page_config(page_title='LGPDNOW GPT', page_icon='utils/lgpd_logo_verde.png', layout="centered")
     col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
     col1.empty()
     col2.image('utils/Logo-lgpd-com-nome.png', width=475)
@@ -27,43 +14,56 @@ def main():
     col5.empty()
     col6.empty()
     col7.empty()
-    st.header(':green[Converse com um especialista em LGPD] ')
+    st.header(':green[Converse com um especialista em LGPD] 💬')
+    user_question = st.text_input("Em que posso te ajudar hoje?")
 
-    def on_user_input_change(new_input):
-        st.session_state.user_input = new_input
-    # Process user input based on st.session_state.user_input
-    user_question = st.text_input("Em que posso te ajudar hoje?", key="user_input", on_change=on_user_input_change)
-    st.session_state.user_input = user_question  # Store user input
+    if ('conversation' not in st.session_state):
+        st.session_state.conversation = None
 
-    # Handle conversation creation and retrieval
-    try:
-        if not st.session_state.conversation:
+    if (user_question):
+
+        # response = st.session_state.conversation(user_question)['chat_history']
+
+        # for i, text_message in enumerate(response):
+
+        #     if (i % 2 == 0):
+        #         message(text_message.content,
+        #                 is_user=True, key=str(i) + '_user')
+
+        #     else:
+        #         message(text_message.content,
+        #                 is_user=False, key=str(i) + '_bot')
+
+        try:
+            if st.session_state.conversation is None:
+                st.session_state.conversation = chatBot.create_conversation_chain()
+
+            response = st.session_state.conversation(user_question)[
+                'chat_history']
+
+            for i, text_message in enumerate(response):
+
+                if (i % 2 == 0):
+                    message(text_message.content,
+                            is_user=True, key=str(i) + '_user')
+
+                else:
+                    message(text_message.content,
+                            is_user=False, key=str(i) + '_bot')
+        except:
             st.session_state.conversation = chatBot.create_conversation_chain()
-    except:
-        st.warning("An error occurred while creating the conversation chain. Retrying...")
-        st.session_state.conversation = chatBot.create_conversation_chain()
+            response = st.session_state.conversation(user_question)[
+                'chat_history']
 
-    # Process user input and update conversation history
-    if user_question:
-        # response = st.session_state.conversation(user_question)
-        response = st.session_state.user_input = user_question
-        #response = st.session_state.conversation.get_response(user_question)
-        st.session_state.conversation.append({
-            "is_user": True,
-            "content": user_question
-        })
-        st.session_state.conversation.append({
-            "is_user": False,
-            "content": response["chat_output"]
-        })
+            for i, text_message in enumerate(response):
 
-    # Display chat history
-    for i, message_data in enumerate(st.session_state.conversation):
-        if message_data["is_user"]:
-            message(message_data["content"], is_user=True, key=str(i) + '_user')
-        else:
-            message(message_data["content"], is_user=False, key=str(i) + '_bot')
-    
+                if (i % 2 == 0):
+                    message(text_message.content,
+                            is_user=True, key=str(i) + '_user')
+
+                else:
+                    message(text_message.content,
+                            is_user=False, key=str(i) + '_bot')
 
     with st.sidebar:
 
