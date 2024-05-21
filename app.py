@@ -30,27 +30,25 @@ def main():
             response = st.session_state.conversation(user_question)['chat_history']
             st.session_state.conversation_history.extend(response)
 
-            # for i, text_message in enumerate(response):
-            #     print("Print do LOOP: ", i, text_message)
-            #     if (i % 2 == 0):
-            #         message(text_message.content,
-            #                 is_user=True, key=str(i) + '_user')
-            #         print("É AQUI MESMOOO")
-            #     else:
-            #         message(text_message.content,
-            #                 is_user=False, key=str(i) + '_bot')
-            #         print("NA REAL TÁ AQUIIIIII")
+            for i, text_message in enumerate(response):
+                print("Print do LOOP: ", i, text_message)
+                if (i % 2 == 0):
+                    message(text_message.content,
+                            is_user=True, key=str(i) + '_user')
+                else:
+                    message(text_message.content,
+                            is_user=False, key=str(i) + '_bot')
 
             # for message in st.session_state.conversation_history:
             #     with st.chat_message(message["role"]):
             #         st.markdown(message["content"])
 
-            with st.chat_message("user"):
-                st.markdown(user_question)
-            st.session_state.messages.append({"role": "user", "content": user_question})
-            with st.chat_message("assistant"):
-                st.markdown(response)
-            st.session_state.messages.append({"role": "assistant", "content": response})
+            # with st.chat_message("user"):
+            #     st.markdown(user_question)
+            # st.session_state.messages.append({"role": "user", "content": user_question})
+            # with st.chat_message("assistant"):
+            #     st.markdown(response)
+            # st.session_state.messages.append({"role": "assistant", "content": response})
         
         except:
             st.session_state.conversation = chatBot.create_conversation_chain()
