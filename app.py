@@ -104,7 +104,7 @@ Com a LGPD em vigor desde 2020, empresas e órgãos que não se adequarem à lei
         def clear_chat_history():
             st.session_state.conversation = None
             response = None
-            user_question = st.text_input("")
+            message = None
 
         st.markdown("")
         st.sidebar.button('Limpar Chat', on_click=clear_chat_history)
