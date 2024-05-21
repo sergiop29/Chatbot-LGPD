@@ -15,58 +15,41 @@ def main():
     col6.empty()
     col7.empty()
     st.header(':green[Converse com um especialista em LGPD] 💬')
+
+    if 'conversation_history' not in st.session_state:
+        st.session_state.conversation_history = []
     user_question = st.text_input("Em que posso te ajudar hoje?")
 
     if ('conversation' not in st.session_state):
         st.session_state.conversation = None
 
-    if (user_question):
-
-        # response = st.session_state.conversation(user_question)['chat_history']
-
-        # for i, text_message in enumerate(response):
-
-        #     if (i % 2 == 0):
-        #         message(text_message.content,
-        #                 is_user=True, key=str(i) + '_user')
-
-        #     else:
-        #         message(text_message.content,
-        #                 is_user=False, key=str(i) + '_bot')
-
+    if user_question:
         try:
             if st.session_state.conversation is None:
                 st.session_state.conversation = chatBot.create_conversation_chain()
-
-            response = st.session_state.conversation(user_question)[
-                'chat_history']
-
+            response = st.session_state.conversation(user_question)['chat_history']
+            st.session_state.conversation_history.extend(response)
             for i, text_message in enumerate(response):
-
                 if (i % 2 == 0):
                     message(text_message.content,
                             is_user=True, key=str(i) + '_user')
-
                 else:
                     message(text_message.content,
                             is_user=False, key=str(i) + '_bot')
+
         except:
             st.session_state.conversation = chatBot.create_conversation_chain()
-            response = st.session_state.conversation(user_question)[
-                'chat_history']
-
+            response = st.session_state.conversation(user_question)['chat_history']
+            st.session_state.conversation_history.extend(response)
             for i, text_message in enumerate(response):
-
                 if (i % 2 == 0):
                     message(text_message.content,
                             is_user=True, key=str(i) + '_user')
-
                 else:
                     message(text_message.content,
                             is_user=False, key=str(i) + '_bot')
 
     with st.sidebar:
-
         st.subheader('Seus arquivos')
 
         # ------ INICIO HABILITAR O PROCESSAMENTO DE ARQUIVOS PDF ----#
@@ -105,11 +88,11 @@ Com a LGPD em vigor desde 2020, empresas e órgãos que não se adequarem à lei
             st.write("")
             st.write("")
 
-        # def clear_chat_history():
-        #     st.session_state.conversation = None
-        # st.markdown("")
-        # st.sidebar.button('Limpar Chat', on_click=clear_chat_history)
-        # st.divider()
+        def clear_chat_history():
+            st.session_state.conversation = None
+        st.markdown("")
+        st.sidebar.button('Limpar Chat', on_click=clear_chat_history)
+        st.divider()
 
         st.caption("<p style='text-align:center'> Made by LGPDNOW </p>",
                    unsafe_allow_html=True)
