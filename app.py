@@ -29,7 +29,10 @@ def main():
     col7.empty()
     st.header(':green[Converse com um especialista em LGPD] ')
 
-    user_question = st.text_input("Em que posso te ajudar hoje?", key="user_input")
+    def on_user_input_change(new_input):
+        st.session_state.user_input = new_input
+    # Process user input based on st.session_state.user_input
+    user_question = st.text_input("Em que posso te ajudar hoje?", key="user_input", on_change=on_user_input_change)
     st.session_state.user_input = user_question  # Store user input
 
     # Handle conversation creation and retrieval
@@ -42,7 +45,8 @@ def main():
 
     # Process user input and update conversation history
     if user_question:
-        response = st.session_state.conversation(user_question)
+        # response = st.session_state.conversation(user_question)
+        response = st.session_state.user_input = user_question
         #response = st.session_state.conversation.get_response(user_question)
         st.session_state.conversation.append({
             "is_user": True,
