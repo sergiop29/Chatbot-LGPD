@@ -16,8 +16,8 @@ def main():
     col7.empty()
     st.header(':green[Converse com um especialista em LGPD] 💬')
 
-    # if 'conversation_history' not in st.session_state:
-    #     st.session_state.conversation_history = []
+    if 'conversation_history' not in st.session_state:
+        st.session_state.conversation_history = []
     user_question = st.text_input("Em que posso te ajudar hoje?")
 
     # if ('conversation' not in st.session_state):
