@@ -41,10 +41,17 @@ def main():
             #                 is_user=False, key=str(i) + '_bot')
             #         print("NA REAL TÁ AQUIIIIII")
 
-            for message in st.session_state.conversation_history:
-                with st.chat_message(message["role"]):
-                    st.markdown(message["content"])
-                    
+            # for message in st.session_state.conversation_history:
+            #     with st.chat_message(message["role"]):
+            #         st.markdown(message["content"])
+
+            with st.chat_message("user"):
+                st.markdown(user_question)
+            st.session_state.messages.append({"role": "user", "content": user_question})
+            with st.chat_message("assistant"):
+                st.markdown(response)
+            st.session_state.messages.append({"role": "assistant", "content": response})
+        
         except:
             st.session_state.conversation = chatBot.create_conversation_chain()
             response = st.session_state.conversation(user_question)['chat_history']
