@@ -53,7 +53,7 @@ def main():
         except:
             st.session_state.conversation = chatBot.create_conversation_chain()
             response = st.session_state.conversation(user_question)['chat_history']
-            st.session_state.conversation_history.extend(response)
+            # st.session_state.conversation_history.extend(response)
             for i, text_message in enumerate(response):
                 if (i % 2 == 0):
                     message(text_message.content,
