@@ -62,8 +62,9 @@ def main():
         with st.chat_message("user"):
             st.markdown(prompt)
         st.session_state.messages.append({"role": "user", "content":prompt})
+        st.session_state.conversation = chatBot.create_conversation_chain()
 
-        response = f"{prompt}"
+        response = st.session_state.conversation(prompt)['chat_history']
         with st.chat_message("assistant"):
             st.markdown(response)
         st.session_state.message.append({"role": "assistant", "content": response})
