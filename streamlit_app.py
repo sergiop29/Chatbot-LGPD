@@ -46,16 +46,16 @@ def main():
         </p>""", unsafe_allow_html=True)
         st.markdown("")
 
-        st.subheader('Modelos de Chatbot')
-        selected_model = st.sidebar.selectbox('Escolha o modelo para atendimento', ['Chat GPT 3.5', 'Llama2 13B'], key='selected_model')
+        st.subheader('Escolha o modelo para atendimento')
+        selected_model = st.sidebar.selectbox('', options=['Chat GPT 3.5', 'Llama2 13B'], key='selected_model')
         if selected_model == 'Chat GPT 3.5':
             llm = ''
         elif selected_model == 'Llama2 13B':
             llm = ''
 
         st.markdown("")
-        st.subheader('Seus arquivos')
-        with st.expander("Legislação utilizada no modelo: "):
+        st.subheader('Base Legal')
+        with st.expander("Legislação utilizada no modelo"):
             st.write("LEI No 13.709, DE 14 DE AGOSTO DE 2018")
             # st.write("")
             # st.write("")
