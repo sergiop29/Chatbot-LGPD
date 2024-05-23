@@ -70,11 +70,11 @@ def main():
         response = st.session_state.conversation(prompt)['chat_history'][1].content
         with st.chat_message("assistant"):
             st.markdown(response)
-        st.session_state.message.append({"role": "assistant", "content": response})
+        st.session_state.messages.append({"role": "assistant", "content": response})
 
 
-    with st.chat_message(name="user", avatar="utils/lgpd_logo_verde.png"):
-        st.write("Como posso ajudar?")
+    # with st.chat_message(name="user", avatar="utils/lgpd_logo_verde.png"):
+    #     st.write("Como posso ajudar?")
     
 
 
