@@ -46,6 +46,13 @@ def main():
         </p>""", unsafe_allow_html=True)
         st.markdown("")
 
+        st.subheader('Escolha o modelo para atendimento')
+        selected_model = st.sidebar.selectbox('', options=['Chat GPT 3.5', 'Llama2 13B'], label_visibility="collapsed")
+        if selected_model == 'Chat GPT 3.5':
+            llm = ''
+        elif selected_model == 'Llama2 13B':
+            llm = ''
+
         st.markdown("")
         st.subheader('Base Legal')
         with st.expander("Legislação utilizada no modelo"):
@@ -54,13 +61,6 @@ def main():
             # st.write("")
             # st.write("")
             # st.write("")
-
-        # st.subheader('Escolha o modelo para atendimento')
-        selected_model = st.sidebar.selectbox('Escolha o modelo para atendimento', options=['Chat GPT 3.5', 'Llama2 13B'], key='selected_model')
-        if selected_model == 'Chat GPT 3.5':
-            llm = ''
-        elif selected_model == 'Llama2 13B':
-            llm = ''
 
         # Botão de "Clear Chat"
         st.markdown("")
@@ -105,8 +105,7 @@ def main():
         response = st.session_state.conversation(prompt)['chat_history'][1].content
         # Resposta do chatbot
         with st.chat_message("assistant", avatar="utils/lgpd_logo_verde.png"):
-            with st.spinner("Pensando"):
-                st.markdown(response)
+            st.markdown(response)
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 
