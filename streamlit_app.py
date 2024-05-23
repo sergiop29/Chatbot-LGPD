@@ -56,12 +56,16 @@ def main():
     if "messages" not in st.session_state:
         st.session_state.messages = []
     for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+        if st.chat_message(message["role"]) == "user":
+            with st.chat_message(message["role"], avatar="🧑"):
+                st.markdown(message["content"])
+        else:
+            with st.chat_message(message["role"], avatar="utils/lgpd_logo_verde.png"):
+                st.markdown(message["content"])
 
 
     if prompt := st.chat_input("Como posso ajudar?"):
-        with st.chat_message("user", avatar="🧑‍💻"):
+        with st.chat_message("user", avatar="🧑"):
             st.markdown(prompt)
         st.session_state.messages.append({"role": "user", "content":prompt})
 
