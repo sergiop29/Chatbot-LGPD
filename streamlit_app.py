@@ -46,13 +46,6 @@ def main():
         </p>""", unsafe_allow_html=True)
         st.markdown("")
 
-        st.subheader('Escolha o modelo para atendimento')
-        selected_model = st.sidebar.selectbox('', options=['Chat GPT 3.5', 'Llama2 13B'], label_visibility="collapsed", key='selected_model')
-        if selected_model == 'Chat GPT 3.5':
-            llm = ''
-        elif selected_model == 'Llama2 13B':
-            llm = ''
-
         st.markdown("")
         st.subheader('Base Legal')
         with st.expander("Legislação utilizada no modelo"):
@@ -61,6 +54,13 @@ def main():
             # st.write("")
             # st.write("")
             # st.write("")
+
+        # st.subheader('Escolha o modelo para atendimento')
+        selected_model = st.sidebar.selectbox('Escolha o modelo para atendimento', options=['Chat GPT 3.5', 'Llama2 13B'], key='selected_model')
+        if selected_model == 'Chat GPT 3.5':
+            llm = ''
+        elif selected_model == 'Llama2 13B':
+            llm = ''
 
         # Botão de "Clear Chat"
         st.markdown("")
