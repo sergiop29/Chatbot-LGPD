@@ -1,13 +1,13 @@
 from langchain_openai.embeddings import OpenAIEmbeddings
+# from langchain_community.embeddings import HuggingFaceInstructEmbeddings
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
-# from langchain.vectorstores import FAISS
+from langchain.vectorstores import FAISS
 from dotenv import load_dotenv
 from langchain_openai.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.llms import CTransformers
-
 
 load_dotenv()  # Isso carrega as variáveis de ambiente do arquivo .env
 
@@ -22,7 +22,25 @@ def create_vectorstore(chunks):
 
 
 # O none aqui deixa o artributo como opcional
-def create_conversation_chain(llm_model, vectorstore=None):
+def create_conversation_chain(vectorstore=None):
+    if (not vectorstore):
+        embeddings = OpenAIEmbeddings()
+        vectorstore = FAISS.load_local(
+            'vectorstore', embeddings, allow_dangerous_deserialization=True)
+
+    llm = ChatOpenAI(model="gpt-3.5-turbo-0125", temperature=0.7)
+
+    memory = ConversationBufferMemory(
+        memory_key='chat_history', return_messages=True)
+
+    conversation_chain = ConversationalRetrievalChain.from_llm(
+        llm=llm,
+        retriever=vectorstore.as_retriever(),
+        memory=memory
+    )
+    return conversation_chain
+
+def create_conversation_chain_2(llm_model, vectorstore=None):
     if llm_model == "Chat GPT 3.5":
         llm = ChatOpenAI(
                 model="gpt-3.5-turbo-0125", 
