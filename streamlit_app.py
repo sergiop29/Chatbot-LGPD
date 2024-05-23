@@ -47,7 +47,7 @@ def main():
         st.markdown("")
 
         st.subheader('Modelos de Chatbot')
-        selected_model = st.sidebar.selectbox('Choose a Llama2 model', ['Llama2-7B', 'Llama2-13B'], key='selected_model')
+        selected_model = st.sidebar.selectbox('Escolha o modelo para atendimento', ['Chat GPT 3.5', 'Llama2 13B'], key='selected_model')
         if selected_model == 'Chat GPT 3.5':
             llm = ''
         elif selected_model == 'Llama2 13B':
