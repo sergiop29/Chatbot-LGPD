@@ -55,20 +55,20 @@ def main():
     # Manter histórico de chat entre sessões
     if "messages" not in st.session_state:
         st.session_state.messages = []
-    # for message in st.session_state.messages:
-    #     with st.chat_message(message["role"]):
-    #         st.markdown(message["content"])
-    if 'messages' not in st.session_state:
-        st.session_state['messages'] = ''
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
 
     if prompt := st.chat_input("Como posso ajudar?"):
-        with st.chat_message("user"):
+        with st.chat_message("user", avatar="🧑‍💻"):
             st.markdown(prompt)
         st.session_state.messages.append({"role": "user", "content":prompt})
-        st.session_state.conversation = chatBot.create_conversation_chain()
 
+        st.session_state.conversation = chatBot.create_conversation_chain()
         response = st.session_state.conversation(prompt)['chat_history'][1].content
-        with st.chat_message("assistant"):
+
+        with st.chat_message("assistant", avatar="utils/lgpd_logo_verde.png"):
             st.markdown(response)
         st.session_state.messages.append({"role": "assistant", "content": response})
 
