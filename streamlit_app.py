@@ -1,6 +1,7 @@
 import streamlit as st
 from utils import chatBot, text
 from streamlit_chat import message
+import time
 
 
 def main():
@@ -47,7 +48,7 @@ def main():
         st.markdown("")
 
         st.subheader('Escolha o modelo para atendimento')
-        selected_model = st.sidebar.selectbox('', options=['Chat GPT 3.5', 'Llama2 13B'], key='selected_model')
+        selected_model = st.sidebar.selectbox('', options=['Chat GPT 3.5', 'Llama2 13B'], label_visibility="collapsed", key='selected_model')
         if selected_model == 'Chat GPT 3.5':
             llm = ''
         elif selected_model == 'Llama2 13B':
@@ -101,11 +102,18 @@ def main():
             st.markdown(prompt)
         st.session_state.messages.append({"role": "user", "content":prompt})
         # Inicializar conversa
-        st.session_state.conversation = chatBot.create_conversation_chain()
-        response = st.session_state.conversation(prompt)['chat_history'][1].content
+        def response_generator(prompt):
+            prompt=prompt
+            st.session_state.conversation = chatBot.create_conversation_chain()
+            response = st.session_state.conversation(prompt)['chat_history'][1].content
+            for word in response.split():
+                yield word + " "
+                time.sleep(0.05)
+        response = st.write_stream(response_generator(prompt))
         # Resposta do chatbot
         with st.chat_message("assistant", avatar="utils/lgpd_logo_verde.png"):
-            st.markdown(response)
+            with st.spinner("Pensando"):
+                st.markdown(response)
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 
