@@ -55,12 +55,12 @@ def main():
     # Manter histórico de chat entre sessões
     if "messages" not in st.session_state:
         st.session_state.messages = []
-    for message in st.session_state.messages:
-        if st.chat_message(message["role"]) == "user":
-            with st.chat_message(message["role"], avatar="🧑"):
+    for i, message in enumerate(st.session_state.messages):
+        if (i % 2 == 0):
+            with st.chat_message(message["role"], avatar="utils/lgpd_logo_verde.png"):
                 st.markdown(message["content"])
         else:
-            with st.chat_message(message["role"], avatar="utils/lgpd_logo_verde.png"):
+            with st.chat_message(message["role"], avatar="🧑"):
                 st.markdown(message["content"])
 
 
