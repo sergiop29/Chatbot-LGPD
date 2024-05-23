@@ -51,19 +51,18 @@ def main():
     #                 message(text_message.content,
     #                         is_user=False, key=str(i) + '_bot')
 
-    # ---------------- TESTE A PARTIR DAQUI ----------------
-    # Manter histórico de chat entre sessões
     if "messages" not in st.session_state:
         st.session_state.messages = []
+    # Manter histórico de chat entre sessões
     for i, message in enumerate(st.session_state.messages):
         if (i % 2 == 0):
-            with st.chat_message(message["role"], avatar="utils/lgpd_logo_verde.png"):
-                st.markdown(message["content"])
-        else:
             with st.chat_message(message["role"], avatar="🧑"):
                 st.markdown(message["content"])
+        else:
+            with st.chat_message(message["role"], avatar="utils/lgpd_logo_verde.png"):
+                st.markdown(message["content"])
 
-
+    # Chatbot
     if prompt := st.chat_input("Como posso ajudar?"):
         with st.chat_message("user", avatar="🧑"):
             st.markdown(prompt)
@@ -76,16 +75,6 @@ def main():
             st.markdown(response)
         st.session_state.messages.append({"role": "assistant", "content": response})
 
-
-    # with st.chat_message(name="user", avatar="utils/lgpd_logo_verde.png"):
-    #     st.write("Como posso ajudar?")
-    
-
-
-
-
-
-    # ---------------- TESTE ACABA AQUI ----------------
 #     with st.sidebar:
 #         st.subheader('Seus arquivos')
 
