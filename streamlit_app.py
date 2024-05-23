@@ -1,7 +1,7 @@
 import streamlit as st
 from utils import chatBot, text
 from streamlit_chat import message
-
+# import time
 
 def main():
     # Início da página e configs
