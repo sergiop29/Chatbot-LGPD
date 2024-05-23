@@ -58,7 +58,9 @@ def main():
     # for message in st.session_state.messages:
     #     with st.chat_message(message["role"]):
     #         st.markdown(message["content"])
-    
+    if 'messages' not in st.session_state:
+        st.session_state['messages'] = ''
+
     if prompt := st.chat_input("Como posso ajudar?"):
         with st.chat_message("user"):
             st.markdown(prompt)
