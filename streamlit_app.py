@@ -52,11 +52,12 @@ def main():
     #                         is_user=False, key=str(i) + '_bot')
 
     # ---------------- TESTE A PARTIR DAQUI ----------------
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+    # Manter histórico de chat entre sessões
+    # if "messages" not in st.session_state:
+    #     st.session_state.messages = []
+    # for message in st.session_state.messages:
+    #     with st.chat_message(message["role"]):
+    #         st.markdown(message["content"])
     
     if prompt := st.chat_input("Como posso ajudar?"):
         with st.chat_message("user"):
