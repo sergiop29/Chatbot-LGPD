@@ -111,8 +111,8 @@ def main():
         # Resposta do chatbot
         with st.chat_message("assistant", avatar="utils/lgpd_logo_verde.png"):
             with st.spinner("Pensando"):
-                response = response_generator(prompt)
-                st.markdown(response) 
+                # response = response_generator(prompt)
+                st.markdown(response_generator(prompt)) 
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 
