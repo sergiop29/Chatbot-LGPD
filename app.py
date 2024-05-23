@@ -133,9 +133,7 @@ Com a LGPD em vigor desde 2020, empresas e órgãos que não se adequarem à lei
         # print(vectorstore)
 
         # vectorstore = "vectorstore/._index.faiss"
-        st.session_state.conversation = chatBot.create_conversation_chain()
-
-
+        
 if __name__ == '__main__':
 
     main()

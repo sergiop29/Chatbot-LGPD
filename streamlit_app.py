@@ -48,10 +48,7 @@ def main():
 
         st.subheader('Escolha o modelo para atendimento')
         selected_model = st.sidebar.selectbox('', options=['Chat GPT 3.5', 'Llama2 13B'], label_visibility="collapsed")
-        if selected_model == 'Chat GPT 3.5':
-            llm = ''
-        elif selected_model == 'Llama2 13B':
-            llm = ''
+        llm = selected_model
 
         st.markdown("")
         st.subheader('Base Legal')
@@ -101,7 +98,7 @@ def main():
             st.markdown(prompt)
         st.session_state.messages.append({"role": "user", "content":prompt})
         # Inicializar conversa
-        st.session_state.conversation = chatBot.create_conversation_chain()
+        st.session_state.conversation = chatBot.create_conversation_chain(llm)
         response = st.session_state.conversation(prompt)['chat_history'][1].content
         # Resposta do chatbot
         with st.chat_message("assistant", avatar="utils/lgpd_logo_verde.png"):
