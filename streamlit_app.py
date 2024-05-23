@@ -102,18 +102,18 @@ def main():
             st.markdown(prompt)
         st.session_state.messages.append({"role": "user", "content":prompt})
         # Inicializar conversa
-        def response_generator(prompt):
-            st.session_state.conversation = chatBot.create_conversation_chain()
-            response = st.session_state.conversation(prompt)['chat_history'][1].content
+        def response_generator(response):
             for word in response.split():
                 yield word + " "
                 time.sleep(0.05)
+        st.session_state.conversation = chatBot.create_conversation_chain()
+        response = st.session_state.conversation(prompt)['chat_history'][1].content
         # Resposta do chatbot
         with st.chat_message("assistant", avatar="utils/lgpd_logo_verde.png"):
             with st.spinner("Pensando"):
-                # response = response_generator(prompt)
-                st.markdown(st.write_stream(response_generator(prompt))) 
-        st.session_state.messages.append({"role": "assistant", "content": response_generator(prompt)})
+                response = response_generator(prompt)
+                st.markdown(response) 
+        st.session_state.messages.append({"role": "assistant", "content": response})
 
 
 if __name__ == '__main__':
