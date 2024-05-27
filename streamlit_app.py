@@ -35,6 +35,7 @@ def main():
 
     # _____ FIM HABILITAR O PROCESSAMENTO DE ARQUIVOS PDF ____#
 
+        # "Header" do sideabr
         st.header('Seu Chatbot pessoal treinado pela LGPDNOW! ', divider='green')
         st.write("")
         st.caption(""" <p style='text-align:justify'>
@@ -46,10 +47,12 @@ def main():
         </p>""", unsafe_allow_html=True)
         st.markdown("")
 
+        # Selectbox para modelos de llm
         st.subheader('Escolha o modelo para atendimento')
         selected_model = st.sidebar.selectbox('', options=['Chat GPT 3.5', 'Llama2 13B'], label_visibility="collapsed")
         llm = selected_model
 
+        # Documentos usados no RAG
         st.markdown("")
         st.subheader('Base Legal')
         with st.expander("Legislação utilizada no modelo"):
@@ -78,7 +81,7 @@ def main():
         col4.empty()
         col5.empty()
 
-#Página principal
+# ----------------------- PÁGINA PRINCIPAL -----------------------
     # Manter histórico de chat entre sessões
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -98,7 +101,7 @@ def main():
             st.markdown(prompt)
         st.session_state.messages.append({"role": "user", "content":prompt})
         # Inicializar conversa
-        st.session_state.conversation = chatBot.create_conversation_chain_2(llm)
+        st.session_state.conversation = chatBot.create_conversation_chain_multi_model(llm)
         response = st.session_state.conversation(prompt)['chat_history'][1].content
         # Resposta do chatbot
         with st.chat_message("assistant", avatar="utils/lgpd_logo_verde.png"):

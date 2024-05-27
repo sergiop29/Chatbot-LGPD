@@ -40,7 +40,7 @@ def create_conversation_chain(vectorstore=None):
     )
     return conversation_chain
 
-def create_conversation_chain_2(llm_model, vectorstore=None):
+def create_conversation_chain_multi_model(llm_model, vectorstore=None):
     if llm_model == "Chat GPT 3.5":
         llm = ChatOpenAI(
                 model="gpt-3.5-turbo-0125", 
@@ -49,7 +49,7 @@ def create_conversation_chain_2(llm_model, vectorstore=None):
         embeddings = OpenAIEmbeddings()
     elif llm_model == "Llama2 13B":
         llm = CTransformers(
-                model = "llama-2-7b-chat.ggmlv3.q8_0.bin",
+                model = "utils/llama-2-7b-chat.ggmlv3.q8_0.bin",
                 model_type="llama",
                 max_new_tokens = 512,
                 temperature = 0.5
