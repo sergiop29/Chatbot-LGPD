@@ -47,6 +47,7 @@ def create_conversation_chain_multi_model(llm_model, vectorstore=None):
                 temperature=0.7
                 )
         embeddings = OpenAIEmbeddings()
+
     elif llm_model == "Llama2 13B":
         llm = CTransformers(
                 model = "utils/llama-2-7b-chat.ggmlv3.q8_0.bin",
