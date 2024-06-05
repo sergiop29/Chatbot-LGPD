@@ -1,6 +1,7 @@
 import streamlit as st
 from utils import chatBot, text
 from streamlit_chat import message
+from dotenv import load_dotenv
 # import time
 
 def main():
@@ -49,7 +50,7 @@ def main():
 
         # Selectbox para modelos de llm
         st.subheader('Escolha o modelo para atendimento')
-        selected_model = st.sidebar.selectbox('', options=['Chat GPT 3.5', 'Llama2 13B'], label_visibility="collapsed")
+        selected_model = st.sidebar.selectbox('Modelo', options=['Chat GPT 3.5', 'Llama2 13B'], label_visibility="collapsed")
         llm = selected_model
 
         # Documentos usados no RAG

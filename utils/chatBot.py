@@ -1,13 +1,18 @@
+import streamlit as st
+import replicate
 from langchain_openai.embeddings import OpenAIEmbeddings
 # from langchain_community.embeddings import HuggingFaceInstructEmbeddings
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain.vectorstores import FAISS
 from dotenv import load_dotenv
 from langchain_openai.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
-from langchain.llms import CTransformers
+from langchain_community.llms import CTransformers
+from langchain_community.llms import HuggingFaceHub
+from langchain_community.llms import Ollama
+from langchain_community.embeddings import OllamaEmbeddings
 
 load_dotenv()  # Isso carrega as variáveis de ambiente do arquivo .env
 
@@ -40,6 +45,18 @@ def create_conversation_chain(vectorstore=None):
     )
     return conversation_chain
 
+# def generate_llama2_response(prompt_input):
+#     string_dialogue = "Use apenas português brasileiro e responda perguntas apenas sobre a LGPD (Lei Geral de Proteção de Dados) e seguranças de dados. Caso receba uma pergunta sobre outro tema, informe que nao poderá responder."
+#     for dict_message in st.session_state.messages:
+#         if dict_message["role"] == "user":
+#             string_dialogue += "User: " + dict_message["content"] + "\n\n"
+#         else:
+#             string_dialogue += "Assistant: " + dict_message["content"] + "\n\n"
+#     output = replicate.run('a16z-infra/llama13b-v2-chat:df7690f1994d94e96ad9d568eac121aecf50684a0b0963b25a41cc40061269e5', 
+#                            input={"prompt": f"{string_dialogue} {prompt_input} Assistant: ",
+#                                   "temperature":0.5, "top_p":0.9, "max_length":2000, "repetition_penalty":1})
+#     return output
+
 def create_conversation_chain_multi_model(llm_model, vectorstore=None):
     if llm_model == "Chat GPT 3.5":
         llm = ChatOpenAI(
@@ -49,16 +66,24 @@ def create_conversation_chain_multi_model(llm_model, vectorstore=None):
         embeddings = OpenAIEmbeddings()
 
     elif llm_model == "Llama2 13B":
-        llm = CTransformers(
-                model = "utils/llama-2-7b-chat.ggmlv3.q8_0.bin",
-                model_type="llama",
-                max_new_tokens = 512,
-                temperature = 0.5
-                )
-        embeddings = HuggingFaceEmbeddings(
-                        model_name='sentence-transformers/all-MiniLM-L6-v2', 
-                        model_kwargs={'device': 'cpu'}
-                        )
+        llm = HuggingFaceHub(
+            repo_id = "TheBloke/Llama-2-7B-Chat-GGML",
+            model_kwargs = {
+                "temperature":0.5,
+                "max_length":512
+            }
+        )
+        # llm = CTransformers(
+        #         model = "llama-2-7b-chat.ggmlv3.q8_0.bin",
+        #         model_type="llama",
+        #         max_new_tokens = 512,
+        #         temperature = 0.5
+        #         )
+        embeddings = OpenAIEmbeddings()
+        # embeddings = HuggingFaceEmbeddings(
+        #                 model_name='sentence-transformers/all-MiniLM-L6-v2', 
+        #                 model_kwargs={'device': 'cpu'}
+        #                 )
 
     if (not vectorstore):
         vectorstore = FAISS.load_local(
