@@ -18,7 +18,7 @@ def create_text_chunks(text):
 
     text_splitter = CharacterTextSplitter(
         separator='\n',
-        chunk_size=2000,
+        chunk_size=3000,
         chunk_overlap=400,
         length_function=len
     )

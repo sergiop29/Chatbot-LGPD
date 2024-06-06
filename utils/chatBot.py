@@ -21,7 +21,7 @@ def create_vectorstore(chunks):
     embeddings = OpenAIEmbeddings()
     new_vectorstore = FAISS.from_texts(texts=chunks, embedding=embeddings)
 
-    vectorstore = FAISS.load_local('vectorstore', embeddings)
+    vectorstore = FAISS.load_local('vectorstore', embeddings, allow_dangerous_deserialization=True)
     vectorstore.merge_from(new_vectorstore)
     return vectorstore
 
