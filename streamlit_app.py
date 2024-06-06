@@ -20,19 +20,19 @@ def main():
     with st.sidebar:
     # ------ INICIO HABILITAR O PROCESSAMENTO DE ARQUIVOS PDF ----#
 
-        pdf_docs = st.file_uploader(
-        "Carregue os seus arquivos, em formato PDF, aqui", accept_multiple_files=True)
-    # # print(type(pdf_docs))
+    #     pdf_docs = st.file_uploader(
+    #     "Carregue os seus arquivos, em formato PDF, aqui", accept_multiple_files=True)
+    # # # print(type(pdf_docs))
 
-        if st.button('Processar'):
-            all_files_text = text.process_file(pdf_docs)
+    #     if st.button('Processar'):
+    #         all_files_text = text.process_file(pdf_docs)
 
-            chunks = text.create_text_chunks(all_files_text)
+    #         chunks = text.create_text_chunks(all_files_text)
 
-            vectorstore = chatBot.create_vectorstore(chunks)
-            # print(vectorstore)
-            st.session_state.conversation = chatBot.create_conversation_chain(
-                vectorstore)
+    #         vectorstore = chatBot.create_vectorstore(chunks)
+    #         # print(vectorstore)
+    #         st.session_state.conversation = chatBot.create_conversation_chain(
+    #             vectorstore)
 
     # _____ FIM HABILITAR O PROCESSAMENTO DE ARQUIVOS PDF ____#
 
