@@ -31,8 +31,8 @@ def main():
 
             vectorstore = chatBot.create_vectorstore(chunks)
             # print(vectorstore)
-    #     st.session_state.conversation = chatBot.create_conversation_chain(
-            # vectorstore)
+            st.session_state.conversation = chatBot.create_conversation_chain(
+                vectorstore)
 
     # _____ FIM HABILITAR O PROCESSAMENTO DE ARQUIVOS PDF ____#
 
