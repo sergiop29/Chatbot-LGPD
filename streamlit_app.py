@@ -2,7 +2,7 @@ import streamlit as st
 from utils import chatBot, text
 from streamlit_chat import message
 from dotenv import load_dotenv
-# import time
+import time
 
 def main():
     # Início da página e configs
@@ -50,7 +50,12 @@ def main():
 
         # Selectbox para modelos de llm
         st.subheader('Escolha o modelo para atendimento')
-        selected_model = st.sidebar.selectbox('Modelo', options=['Chat GPT 3.5', 'Llama2 13B'], label_visibility="collapsed")
+        selected_model = st.sidebar.selectbox('Modelo', 
+                                            options=['Chat GPT 3.5', 
+                                                    # 'Llama2 13B'
+                                                    ], 
+                                            label_visibility = "collapsed"
+                                            )
         llm = selected_model
 
         # Documentos usados no RAG
@@ -105,8 +110,13 @@ def main():
         st.session_state.conversation = chatBot.create_conversation_chain_multi_model(llm)
         response = st.session_state.conversation(prompt)['chat_history'][1].content
         # Resposta do chatbot
+        def stream_data():
+            for word in response.split(" "):
+                yield word + " "
+                time.sleep(0.03)
         with st.chat_message("assistant", avatar="utils/lgpd_logo_verde.png"):
-            st.markdown(response)
+            # st.markdown(response)
+            st.write_stream(stream_data)
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 
