@@ -19,10 +19,14 @@ load_dotenv()  # Isso carrega as variáveis de ambiente do arquivo .env
 
 def create_vectorstore(chunks):
     embeddings = OpenAIEmbeddings()
+    # if embeddings is not None: 
+    #     print('EMBEDDING OK!!!!!')
     new_vectorstore = FAISS.from_texts(texts=chunks, embedding=embeddings)
-
+    # print(new_vectorstore)
     vectorstore = FAISS.load_local('vectorstore', embeddings, allow_dangerous_deserialization=True)
+    # print('Carregou a VECTORSTORE!!!!!!!')
     vectorstore.merge_from(new_vectorstore)
+    # print('Vectorstore MERGEADA', vectorstore)
     return vectorstore
 
 
