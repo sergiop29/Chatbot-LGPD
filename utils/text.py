@@ -10,7 +10,7 @@ def process_file(files):
         for page in pdf.pages:
             PdfReader(file)
             text += page.extract_text()
-
+    # print('----------- A função process_file retornou: ', text)
     return text
 
 
@@ -24,5 +24,5 @@ def create_text_chunks(text):
     )
 
     chunks = text_splitter.split_text(text)
-
+    # print('----------- A função create_text_chunks retornou: ', chunks)
     return chunks

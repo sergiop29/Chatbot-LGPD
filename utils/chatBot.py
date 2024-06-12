@@ -4,7 +4,7 @@ from langchain_openai.embeddings import OpenAIEmbeddings
 # from langchain_community.embeddings import HuggingFaceInstructEmbeddings
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain.vectorstores import FAISS
+# from langchain.vectorstores import FAISS
 from dotenv import load_dotenv
 from langchain_openai.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
@@ -19,14 +19,17 @@ load_dotenv()  # Isso carrega as variáveis de ambiente do arquivo .env
 
 def create_vectorstore(chunks):
     embeddings = OpenAIEmbeddings()
-    # if embeddings is not None: 
-    #     print('EMBEDDING OK!!!!!')
-    new_vectorstore = FAISS.from_texts(texts=chunks, embedding=embeddings)
-    # print(new_vectorstore)
     vectorstore = FAISS.load_local('vectorstore', embeddings, allow_dangerous_deserialization=True)
-    # print('Carregou a VECTORSTORE!!!!!!!')
+    # print('------- Carregou a VECTORSTORE original ', vectorstore)
+    new_vectorstore = FAISS.from_texts(texts=chunks, embedding=embeddings)
+    # print('--------------- Nova Vectorstore!@!!!!! ', new_vectorstore)
+    new_vectorstore.save_local("vectorstore_2")
+    new_vectorstore = FAISS.load_local("vectorstore_2", embeddings, allow_dangerous_deserialization=True)
+    # print('--------------- Nova Vectorstore_2!!!!!! ', vectorstore_2)
     vectorstore.merge_from(new_vectorstore)
-    # print('Vectorstore MERGEADA', vectorstore)
+    vectorstore.save_local("vectorstore")
+    # print('--------------- Vectorstore MERGEADA ', vectorstore)
+
     return vectorstore
 
 

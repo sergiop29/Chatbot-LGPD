@@ -30,9 +30,10 @@ def main():
     #         chunks = text.create_text_chunks(all_files_text)
 
     #         vectorstore = chatBot.create_vectorstore(chunks)
-    #         # print(vectorstore)
-    #         st.session_state.conversation = chatBot.create_conversation_chain(
-    #             vectorstore)
+            
+    #         # print('---- vectorstore que aparece no app final HEIN; ', vectorstore)
+    #         # st.session_state.conversation = chatBot.create_conversation_chain(
+    #         #     vectorstore)
 
     # _____ FIM HABILITAR O PROCESSAMENTO DE ARQUIVOS PDF ____#
 
@@ -64,8 +65,8 @@ def main():
         st.subheader('Base Legal')
         with st.expander("Legislação utilizada no modelo"):
             st.write("LEI No 13.709, DE 14 DE AGOSTO DE 2018")
-            # st.write("")
-            # st.write("")
+            st.write("Política de Comunicação Social - ANPD")
+            st.write("Decreto nº 48891 de 2024 - Rio de Janeiro")
             # st.write("")
             # st.write("")
 
