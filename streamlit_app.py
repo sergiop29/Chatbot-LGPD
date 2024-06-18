@@ -3,6 +3,8 @@ from utils import chatBot, text
 from streamlit_chat import message
 from dotenv import load_dotenv
 import time
+import os
+import glob
 
 def main():
     # Início da página e configs
@@ -20,20 +22,20 @@ def main():
     with st.sidebar:
     # ------ INICIO HABILITAR O PROCESSAMENTO DE ARQUIVOS PDF ----#
 
-    #     pdf_docs = st.file_uploader(
-    #     "Carregue os seus arquivos, em formato PDF, aqui", accept_multiple_files=True)
-    # # # print(type(pdf_docs))
+        pdf_docs = st.file_uploader(
+        "Carregue os seus arquivos, em formato PDF, aqui", accept_multiple_files=True)
+    # # print(type(pdf_docs))
 
-    #     if st.button('Processar'):
-    #         all_files_text = text.process_file(pdf_docs)
+        if st.button('Processar'):
+            all_files_text = text.process_file(pdf_docs)
 
-    #         chunks = text.create_text_chunks(all_files_text)
+            chunks = text.create_text_chunks(all_files_text)
 
-    #         vectorstore = chatBot.create_vectorstore(chunks)
+            vectorstore = chatBot.create_vectorstore(chunks)
             
-    #         # print('---- vectorstore que aparece no app final HEIN; ', vectorstore)
-    #         # st.session_state.conversation = chatBot.create_conversation_chain(
-    #         #     vectorstore)
+            # print('---- vectorstore que aparece no app final HEIN; ', vectorstore)
+            # st.session_state.conversation = chatBot.create_conversation_chain(
+            #     vectorstore)
 
     # _____ FIM HABILITAR O PROCESSAMENTO DE ARQUIVOS PDF ____#
 
@@ -64,11 +66,14 @@ def main():
         st.markdown("")
         st.subheader('Base Legal')
         with st.expander("Legislação utilizada no modelo"):
-            st.write("LEI No 13.709, DE 14 DE AGOSTO DE 2018")
-            st.write("Política de Comunicação Social - ANPD")
-            st.write("Decreto nº 48891 de 2024 - Rio de Janeiro")
-            # st.write("")
-            # st.write("")
+            # st.write("LEI No 13.709, DE 14 DE AGOSTO DE 2018")
+            # st.write("Política de Comunicação Social - ANPD")
+            # st.write("Decreto nº 48891 de 2024 - Rio de Janeiro")
+            # loop para nomear arquivos para Base Legal
+            pdf_files = glob.glob(os.path.join("normas", "*.pdf"))
+            for pdf_file in pdf_files:
+                filename = os.path.basename(pdf_file)  # Extract filename
+                st.write(f"•   {filename}")
 
         # Botão de "Clear Chat"
         st.markdown("")

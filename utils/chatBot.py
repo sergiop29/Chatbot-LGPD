@@ -1,34 +1,49 @@
+import os
+import shutil
 import streamlit as st
 import replicate
 from langchain_openai.embeddings import OpenAIEmbeddings
 # from langchain_community.embeddings import HuggingFaceInstructEmbeddings
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAISS
-# from langchain.vectorstores import FAISS
+# from langchain_community.embeddings import HuggingFaceEmbeddings
+# from langchain_community.vectorstores import FAISS
+from langchain.vectorstores import FAISS
 from dotenv import load_dotenv
 from langchain_openai.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
-from langchain_community.llms import CTransformers
+# from langchain_community.llms import CTransformers
 from langchain_community.llms import HuggingFaceHub
-from langchain_community.llms import Ollama
-from langchain_community.embeddings import OllamaEmbeddings
+# from langchain_community.llms import Ollama
+# from langchain_community.embeddings import OllamaEmbeddings
 
 load_dotenv()  # Isso carrega as variáveis de ambiente do arquivo .env
 
+def deletar_vectorstore(caminho_pasta):
+    try:
+        shutil.rmtree(caminho_pasta)
+        # print("Pasta deletada com sucesso!")
+    except FileNotFoundError:
+        print(f"Erro: A pasta '{caminho_pasta}' não foi encontrada.")
 
 def create_vectorstore(chunks):
     embeddings = OpenAIEmbeddings()
-    vectorstore = FAISS.load_local('vectorstore', embeddings, allow_dangerous_deserialization=True)
-    # print('------- Carregou a VECTORSTORE original ', vectorstore)
-    new_vectorstore = FAISS.from_texts(texts=chunks, embedding=embeddings)
-    # print('--------------- Nova Vectorstore!@!!!!! ', new_vectorstore)
-    new_vectorstore.save_local("vectorstore_2")
-    new_vectorstore = FAISS.load_local("vectorstore_2", embeddings, allow_dangerous_deserialization=True)
-    # print('--------------- Nova Vectorstore_2!!!!!! ', vectorstore_2)
-    vectorstore.merge_from(new_vectorstore)
-    vectorstore.save_local("vectorstore")
-    # print('--------------- Vectorstore MERGEADA ', vectorstore)
+    try:
+        vectorstore = FAISS.load_local('vectorstore', embeddings, allow_dangerous_deserialization=True)
+        # print('------- Carregou a VECTORSTORE original ', vectorstore)
+        new_vectorstore = FAISS.from_texts(texts=chunks, embedding=embeddings) # erro aqui
+        # print('--------------- Nova Vectorstore!@!!!!! ', new_vectorstore)
+        new_vectorstore.save_local("vectorstore_2")
+        new_vectorstore = FAISS.load_local("vectorstore_2", embeddings, allow_dangerous_deserialization=True)
+        # print('--------------- Nova Vectorstore_2!!!!!! ', vectorstore_2)
+        vectorstore.merge_from(new_vectorstore)
+        vectorstore.save_local("vectorstore")
+        # print('--------------- Vectorstore MERGEADA ', vectorstore)
+        deletar_vectorstore("vectorstore_2")
+    except:
+        # print("------- rodou except")
+        vectorstore = FAISS.from_texts(texts=chunks, embedding=embeddings) # e aqui
+        vectorstore.save_local("vectorstore")
+        vectorstore = FAISS.load_local('vectorstore', embeddings, allow_dangerous_deserialization=True)
 
     return vectorstore
 
@@ -76,7 +91,7 @@ def create_conversation_chain_multi_model(llm_model, vectorstore=None):
         llm = HuggingFaceHub(
             repo_id = "TheBloke/Llama-2-7B-Chat-GGML",
             model_kwargs = {
-                "temperature":0.5,
+                "temperature":0.3,
                 "max_length":512
             }
         )
