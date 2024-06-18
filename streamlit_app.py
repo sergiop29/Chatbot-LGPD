@@ -55,7 +55,7 @@ def main():
         st.subheader('Escolha o modelo para atendimento')
         selected_model = st.sidebar.selectbox('Modelo', 
                                             options=['Chat GPT 3.5', 
-                                                    'Llama2 13B',
+                                                    # 'Llama2 13B',
                                                     # 'Mistral',
                                                     ], 
                                             label_visibility = "collapsed"
